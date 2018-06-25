@@ -1,0 +1,33 @@
+.board-grid {
+    width: 500px;
+    margin-top: 40px;
+}
+
+.board-col {
+    padding: 0;
+    height: 42px;
+}
+
+.board-cell {
+    border-radius: 0;
+    border: 1px solid lightgray;
+    border-collapse: collapse;
+    width: 100%;
+    height: 100%;
+}
+
+.ship-cell {
+    border: 1px solid green!important;
+}
+
+.hit-cell {
+    border: 1px solid red!important;
+}
+
+.miss-cell {
+    border: 1px solid darkgray!important;
+}
+
+.board-cell:focus {
+    box-shadow: none;
+}
