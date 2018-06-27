@@ -4,6 +4,8 @@ import { Col, Button } from 'react-bootstrap';
 interface CellProps {
     type: number,
     onClick?: (e: any) => any
+    onHover: () => any
+    onBlur: () => any
 }
 
 interface CellState {}
@@ -61,6 +63,8 @@ export class Cell extends React.Component<CellProps, CellState> {
                     bsStyle={this.selectStyle()}
                     bsSize="large"
                     className={this.getClasses()}
+                    onMouseOver={this.props.onHover}
+                    onMouseOut={this.props.onBlur}
                     onClick={(e: any) => this.props.onClick(e)}
                 />
             </Col>

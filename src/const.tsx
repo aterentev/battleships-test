@@ -6,4 +6,8 @@ const TYPES = {
     HIT: 3
 };
 
-export { TYPES };
+const ItemTypes = {
+    CELL: 'cell'
+};
+
+export { TYPES, ItemTypes };

@@ -6,6 +6,8 @@ import { Cell } from '../Cell/Cell';
 interface BoardProps {
     board: number[][],
     showAlert: boolean,
+    onHover: (row: number, col: number) => any,
+    onBlur: (row: number, col: number) => any,
     onClick: (row: number, col: number) => any
 }
 interface BoardState {}
@@ -21,14 +23,21 @@ export class Board extends React.Component<BoardProps, BoardState> {
     }
 
     render() {
-        let rows = this.props.board.map((row, rowIndex) => {
-            let cols = row.map((col, colIndex) => <Cell type={col} onClick={(e: any) => this.handleClick(e, rowIndex, colIndex)} />);
+        const { board, showAlert } = this.props;
+
+        let rows = board.map((row, rowIndex) => {
+            let cols = row.map((col, colIndex) => (
+                <Cell type={col}
+                      onClick={(e: any) => this.handleClick(e, rowIndex, colIndex)}
+                      onHover={() => this.props.onHover(rowIndex, colIndex)}
+                      onBlur={() => this.props.onBlur(rowIndex, colIndex)}/>
+            ));
             return (<Row>
                 {cols}
             </Row>)
         });
 
-        if (this.props.showAlert) {
+        if (showAlert) {
             return <Alert bsStyle='danger' >The game is over! All ship are sunk!</Alert>
         }
 

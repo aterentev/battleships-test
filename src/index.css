@@ -1,11 +1,11 @@
 .board-grid {
-    width: 500px;
+    width: 410px;
     margin-top: 40px;
 }
 
 .board-col {
     padding: 0;
-    height: 42px;
+    height: 32px;
 }
 
 .board-cell {
@@ -30,4 +30,9 @@
 
 .board-cell:focus {
     box-shadow: none;
+}
+
+.well {
+    max-width: 250px;
+    margin: 30px auto 10px;
 }
