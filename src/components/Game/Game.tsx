@@ -1,4 +1,5 @@
 import * as React from 'react';
+import * as _ from 'lodash';
 import { Grid, Row, Col } from 'react-bootstrap';
 import { Port } from '../Port/Port';
 import { Board } from '../Board/Board';
@@ -70,8 +71,8 @@ export class Game extends React.Component<GameProps, GameState> {
         let updatedBoard = this.state.board.slice(0);
         let cell = this.state.board[row][col];
 
-        if (!(this.state.selectedShip[0] === 0)) {
-            if (this.state.board[row][col] === CONST.TYPES.HIT) return;
+        if (this.state.selectedShip[0] !== 0) {
+            if (this.state.preBoard[row][col] === CONST.TYPES.HIT) return;
             let board = Utils.placeShip(this.state.board.slice(0), this.state.selectedShip[1]);
             let placedShips = this.state.placedShips.slice(0);
             placedShips[this.state.selectedShip[0] - 1] = true;
@@ -84,6 +85,7 @@ export class Game extends React.Component<GameProps, GameState> {
             return;
         }
 
+        if (!this.state.gameStarted) return;
         switch (cell) {
             case 0:
             case 9:
@@ -91,9 +93,6 @@ export class Game extends React.Component<GameProps, GameState> {
                 break;
             case 1:
                 updatedBoard = this.sunkShip(updatedBoard, row, col);
-                this.setState({
-                    sunkShips: this.state.sunkShips + 1
-                });
                 break;
             default:
                 break;
@@ -123,24 +122,14 @@ export class Game extends React.Component<GameProps, GameState> {
 
     sunkShip(board: number[][], row: number, col: number): number[][] {
         board[row][col] = CONST.TYPES.HIT;
-        if (col > 0 && this.state.board[row][col - 1] === CONST.TYPES.SHIP) {
-            board[row][col - 1] = CONST.TYPES.HIT;
-            this.sunkShip(board, row, col - 1);
-        }
 
-        if (col < 9 && this.state.board[row][col + 1] === CONST.TYPES.SHIP) {
-            board[row][col + 1] = CONST.TYPES.HIT;
-            this.sunkShip(board, row, col + 1);
-        }
+        let flat = _.flatten(board);
+        let indicator = flat.find(col => col === 1);
 
-        if (row > 0 && this.state.board[row - 1][col] === CONST.TYPES.SHIP) {
-            board[row - 1][col] = CONST.TYPES.HIT;
-            this.sunkShip(board, row - 1, col);
-        }
-
-        if (row < 9 && this.state.board[row + 1][col] === CONST.TYPES.SHIP) {
-            board[row + 1][col] = CONST.TYPES.HIT;
-            this.sunkShip(board, row + 1, col);
+        if (!indicator) {
+            this.setState({
+                sunkShips: 4
+            });
         }
 
         return board;
